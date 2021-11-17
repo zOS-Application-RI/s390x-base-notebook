@@ -157,9 +157,6 @@ RUN conda install -c conda-forge --quiet --yes \
 
 EXPOSE 8888
 
-# Copy local files as late as possible to avoid cache busting
-COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
-RUN chmod a+x /usr/local/bin/start*
 
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
@@ -171,6 +168,9 @@ COPY jupyter_notebook_config.py /etc/jupyter/
 
 # Fix permissions on /etc/jupyter as root
 USER root
+# Copy local files as late as possible to avoid cache busting
+COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/start*
 
 # Prepare upgrade to JupyterLab V3.0 #1205
 RUN sed -re "s/c.NotebookApp/c.ServerApp/g" \
@@ -178,6 +178,6 @@ RUN sed -re "s/c.NotebookApp/c.ServerApp/g" \
     fix-permissions /etc/jupyter/
 
 # Switch back to jovyan to avoid accidental container runs as root
-USER ${NB_UID}
+# USER ${NB_UID}
 
 WORKDIR "${HOME}"
