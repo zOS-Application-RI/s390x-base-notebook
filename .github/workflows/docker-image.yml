@@ -41,4 +41,5 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/s390x-base-notebook:latest
