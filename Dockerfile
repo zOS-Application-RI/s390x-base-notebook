@@ -118,7 +118,7 @@ RUN set -x && \
     # Miniconda installer
     miniconda_arch=$(uname -m) && \
     # miniconda_installer="Miniconda3-latest-Linux-${miniconda_arch}.sh" && \
-    miniconda_installer="Anaconda3-2021.04-Linux-${miniconda_arch}.sh" && \
+    miniconda_installer="Anaconda3-2021.05-Linux-${miniconda_arch}.sh" && \
     wget --quiet "${CONDA_MIRROR}/${miniconda_installer}" && \
     /bin/bash "${miniconda_installer}" -f -b -p "${CONDA_DIR}" && \
     rm "${miniconda_installer}" && \
@@ -129,7 +129,7 @@ RUN set -x && \
     conda list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
     # Using conda to update all packages: https://github.com/mamba-org/mamba/issues/1092
     conda update --all --quiet --yes && \
-    conda clean --all -f -y && \
+    # conda clean --all -f -y && \
     rm -rf "/home/${NB_USER}/.cache/yarn" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
@@ -157,12 +157,15 @@ RUN conda install -c conda-forge --quiet --yes \
 
 EXPOSE 8888
 
+# Copy local files as late as possible to avoid cache busting
+COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/start*
+
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
-# Copy local files as late as possible to avoid cache busting
-COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
+
 # Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
 COPY jupyter_notebook_config.py /etc/jupyter/
 

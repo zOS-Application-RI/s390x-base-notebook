@@ -43,16 +43,13 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       -
         name: Build and push
-        uses: docker/build-push-action@v2
-          # with:
-          #   context: .
-          #   push: true
-          #   tags: ashish1981/s390x-base-notebook:latest
+        uses: docker/build-push-action@v2.7.0
+
         with:
           context: ./
           file: ./Dockerfile
           push: true
-          platforms: linux/s390x
+          platforms: linux/amd64, linux/arm64, linux/ppc64le, linux/s390x
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/s390x-base-notebook:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
