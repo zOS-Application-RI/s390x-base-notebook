@@ -137,8 +137,8 @@ RUN set -x && \
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 # RUN mamba install --quiet --yes \
-RUN conda install -c --quiet --yes \
-    'conda-forge' \
+RUN conda install -c conda-forge --quiet --yes \
+    # 'conda-forge' \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' && \   
