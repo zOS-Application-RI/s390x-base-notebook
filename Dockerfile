@@ -30,6 +30,8 @@ RUN apt-get update --yes && \
     sudo \
     locales \
     fonts-liberation \
+    npm \ 
+    nodejs \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \

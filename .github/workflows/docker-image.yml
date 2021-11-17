@@ -16,6 +16,9 @@ jobs:
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1.2.0
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
       # - 
         # name: Linelint
         # uses: fernandrone/linelint@0.0.4
