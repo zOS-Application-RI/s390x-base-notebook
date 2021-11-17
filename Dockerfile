@@ -83,7 +83,8 @@ WORKDIR /tmp
 # For example, people from mainland China could set it as
 # https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/LatestRelease
 # ARG CONDA_MIRROR=https://github.com/conda-forge/miniforge/releases/latest/download
-ARG CONDA_MIRROR=https://repo.anaconda.com/miniconda
+# ARG CONDA_MIRROR=https://repo.anaconda.com/miniconda
+ARG CONDA_MIRROR=https://repo.anaconda.com/archive
 
 # ---- Miniforge installer ----
 # Check https://github.com/conda-forge/miniforge/releases
@@ -114,7 +115,8 @@ ARG CONDA_MIRROR=https://repo.anaconda.com/miniconda
 RUN set -x && \
     # Miniconda installer
     miniconda_arch=$(uname -m) && \
-    miniconda_installer="Miniconda3-latest-Linux-${miniconda_arch}.sh" && \
+    # miniconda_installer="Miniconda3-latest-Linux-${miniconda_arch}.sh" && \
+    miniconda_installer="Anaconda3-2021.04-Linux-${miniconda_arch}.sh" && \
     wget --quiet "${CONDA_MIRROR}/${miniconda_installer}" && \
     /bin/bash "${miniconda_installer}" -f -b -p "${CONDA_DIR}" && \
     rm "${miniconda_installer}" && \
@@ -140,7 +142,7 @@ RUN set -x && \
 RUN conda install -c conda-forge --quiet --yes \
     # 'conda-forge' \
     'notebook' \
-    'jupyterhub' \
+    # 'jupyterhub' \
     'jupyterlab' && \   
     # mamba clean --all -f -y && \
     conda clean --all -f -y && \
