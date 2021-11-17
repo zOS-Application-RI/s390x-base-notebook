@@ -3,7 +3,8 @@
 
 # Ubuntu 20.04 (focal)
 # https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
-ARG ROOT_CONTAINER=ubuntu:focal
+# ARG ROOT_CONTAINER=ubuntu:focal
+ARG ROOT_CONTAINER=ubuntu
 
 FROM $ROOT_CONTAINER
 
@@ -121,7 +122,7 @@ RUN set -x && \
     conda config --system --set auto_update_conda true && \
     conda config --system --set show_channel_urls true && \
     if [[ "${PYTHON_VERSION}" != "default" ]]; then conda install --quiet --yes python="${PYTHON_VERSION}"; fi && \
-    mamba list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
+    conda list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
     # Using conda to update all packages: https://github.com/mamba-org/mamba/issues/1092
     conda update --all --quiet --yes && \
     conda clean --all -f -y && \
@@ -136,10 +137,11 @@ RUN set -x && \
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 # RUN mamba install --quiet --yes \
-RUN conda install --quiet --yes \
+RUN conda install -c --quiet --yes \
+    'conda-forge' \
     'notebook' \
     'jupyterhub' \
-    'jupyterlab' && \
+    'jupyterlab' && \   
     # mamba clean --all -f -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
