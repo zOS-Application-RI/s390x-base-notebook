@@ -1,2 +1,3 @@
 # Base Jupyter Notebook Stack
-"# s390x-base-notebook" 
+
+[![CI to Docker Hub](https://github.com/zOS-Application-RI/s390x-base-notebook/actions/workflows/docker-image.yml/badge.svg)](https://github.com/zOS-Application-RI/s390x-base-notebook/actions/workflows/docker-image.yml)
