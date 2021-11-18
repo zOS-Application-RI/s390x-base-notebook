@@ -32,9 +32,10 @@ jobs:
         id: prep
         run: |
           branch=${GITHUB_REF##*/}
-          sha=${GITHUB_SHA::8}
-          ts=$(date +%s)
-          echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}"          
+          # sha=${GITHUB_SHA::8}
+          # ts=$(date +%s)
+          ts=$(date +%Y-%m-%d--%H-%M)
+          echo "::set-output name=BUILD_ID::${branch}-${ts}"          
 
       -     
         name: Cache Docker layers
