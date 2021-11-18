@@ -67,7 +67,8 @@ jobs:
           platforms: linux/amd64, linux/ppc64le, linux/s390x
           # tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest,
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest, 
-                ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:v1
+                ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:v1,
+                ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:$(date +%Y-%m-%d--%H-%M-%S--%N)-${{ matrix.os }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
